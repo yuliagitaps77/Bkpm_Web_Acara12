@@ -11,7 +11,18 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+         // Registrasi middleware global
+    $middleware->append(
+        \App\Http\Middleware\BeforeMiddleware::class
+    );
+    
+    // Atau untuk named middleware
+    $middleware->alias([
+        'before' => \App\Http\Middleware\BeforeMiddleware::class,
+        'after' => \App\Http\Middleware\AfterMiddleware::class,
+        'checkage' => \App\Http\Middleware\CheckAge::class,
+        'role' => \App\Http\Middleware\CheckRole::class,
+    ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
